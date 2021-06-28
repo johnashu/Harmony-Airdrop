@@ -12,11 +12,11 @@ const liner = new lineByLine(fName)
 const HMY_RPC_URL = process.env.HMY_RPC_URL
 const HMY_PRIVATE_KEY = process.env.HMY_PRIVATE_KEY
 
-GAS_LIMIT = 25000
-GAS_PRICE = 1000000000
+const GAS_LIMIT = parseInt(process.env.GAS_LIMIT)
+const GAS_PRICE = parseInt(process.env.GAS_PRICE)
 
-TO_SEND = 1.22
-DECIMALS= 1e18
+const TO_SEND = process.env.TO_SEND
+const DECIMALS = process.env.DECIMALS
 
 const web3 = new Web3(HMY_RPC_URL)
 
