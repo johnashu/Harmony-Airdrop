@@ -38,3 +38,7 @@ run program
 node .\do_airdrop.js
 ```
 
+Save to log file 
+```
+node .\do_airdrop.js > ./airdrop.log
+```
