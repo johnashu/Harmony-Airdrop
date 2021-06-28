@@ -2,10 +2,12 @@
 
 Setup
 
-Install Node.JS
-Install npm
+Install Node.JS & NPM
 
-install dependencies
+https://nodejs.org/en/download/
+
+
+Install dependencies
 
 ```
 npm install .
