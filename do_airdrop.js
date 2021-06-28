@@ -28,7 +28,12 @@ web3.eth.defaultAccount = hmyMasterAccount.address
 async function sendTX(toAddress, nonce, price) {
   const myAddress = web3.eth.defaultAccount
 
-  console.log('Send  ::  ' + price + '  ONE\nTo address  ::  ' + toAddress + '\nSTART TX....')
+  console.log(
+    'Send  ::  ' +
+      price +
+      '  ONE\nTo address  ::  ' +
+      toAddress
+  )
 
   const result = await web3.eth
     .sendTransaction({
@@ -36,15 +41,18 @@ async function sendTX(toAddress, nonce, price) {
       from: myAddress,
       to: toAddress,
       value: price * DECIMALS,
-      gasPrice: GAS_PRICE, 
+      gasPrice: GAS_PRICE,
       gasLimit: GAS_LIMIT,
       setTimeout: 5,
     })
     .on('error', console.error)
 
-  console.log(`TX Hash  ::  ${result.transactionHash}\nResult  ::  `, result.status, "\nNonce  ::  ",  nonce, '\nEND TX')
-  console.log('---------------------------------------------------------------------------------------------------------')
-
+  console.log(
+    `TX Hash  ::  ${result.transactionHash}\nResult  ::  `,
+    result.status,
+    '\nNonce  ::  ',
+    nonce
+  )
 }
 
 async function get_nonce() {
@@ -61,11 +69,16 @@ async function get_nonce() {
 async function runAirdrop() {
   let line
   var nonce = await get_nonce()
-  while ((line = liner.next())) {    
+  while ((line = liner.next())) {
     var sendAddress = line.toString('utf8').replace(/\r/g, '')
-    await sendTX(sendAddress, nonce, TO_SEND)
-    nonce += 1
+    if (web3.utils.isAddress(sendAddress)) {
+      await sendTX(sendAddress, nonce, TO_SEND)
+      nonce += 1
+    } else {
+      console.log('Invalid Address..', sendAddress)
+    }
+    console.log('---------------------------------------------------------------------------------------------------------')
   }
 }
 
-runAirdrop();
+runAirdrop()
