@@ -1,5 +1,7 @@
 require('dotenv').config()
 const Web3 = require('web3')
+const BN = require('bn.js');
+const numFormat = require('./utils/numberFormat');
 
 // Open file and put addresses into a list to iterate over
 var fName = 'addresses.csv'
@@ -8,6 +10,9 @@ const lineByLine = require('n-readlines')
 const liner = new lineByLine(fName)
 
 // Harmony Constants
+const tokenJson = './abis/ERC20.json'
+
+const HRC20Contract = process.env.HRC20Contract
 
 const HMY_RPC_URL = process.env.HMY_RPC_URL
 const HMY_PRIVATE_KEY = process.env.HMY_PRIVATE_KEY
@@ -16,7 +21,8 @@ const GAS_LIMIT = parseInt(process.env.GAS_LIMIT)
 const GAS_PRICE = parseInt(process.env.GAS_PRICE)
 
 const TO_SEND = process.env.TO_SEND
-const DECIMALS = process.env.DECIMALS
+const DECIMALS = '1e' + process.env.DECIMALS
+const TOKEN_TYPE = process.env.TOKEN_TYPE
 
 const web3 = new Web3(HMY_RPC_URL)
 
@@ -55,11 +61,10 @@ async function sendTxOne(toAddress, nonce, price) {
   )
 }
 
-const sendHRC20Tokens = async (tokenJson, HRC20Contract, sendAddress) => {
-  // @ts-ignore
+const sendHRC20Tokens = async (tokenJson, HRC20Contract, sendAddress, nonce) => {
   const myAddress = web3.eth.defaultAccount
 
-  const hmyAbiJson = require();
+  const hmyAbiJson = require(tokenJson);
   const contract = new web3.eth.Contract(
     hmyAbiJson.abi,
     HRC20Contract,
@@ -73,23 +78,28 @@ const sendHRC20Tokens = async (tokenJson, HRC20Contract, sendAddress) => {
     const gasPrice = new BN(await web3.eth.getGasPrice()).mul(new BN(1));
 
     result = await contract.methods
-      .transfer(sendAddress, mulDecimals(TO_SEND, 18))
+      .transfer(sendAddress, numFormat.mulDecimals(TO_SEND, 18))
       .send({
-        from: account,
+        nonce: nonce,
+        from: myAddress,
         gasPrice,
         gasLimit,
       })
       .on('error', console.error)
       .on('transactionHash', transactionHash => {
-        alert(`Transaction is sending: ${transactionHash}`);
+        console.log(`Transaction is sending: ${transactionHash}`);
       });
   } catch (e) {
     console.error(e);
   }
+  try {
+    
+  console.log(`Send tx: ${result.transactionHash} \nresult: `, result.status);
+  }
+  catch (e) {
+    console.error(e);
+  }
 
-  console.log(`Send tx: ${result.transactionHash} result: `, result.status);
-
-  alert(`Send tx: ${result.transactionHash} result: ${result.status}`);
 };
 
 async function get_nonce() {
@@ -108,13 +118,15 @@ async function runAirdrop(decide) {
   var nonce = await get_nonce()
   while ((line = liner.next())) {
     var sendAddress = line.toString('utf8').replace(/\r/g, '')
+    console.log('Sending '+ TO_SEND + ' ' + decide + ' to  Address: ', sendAddress)
     if (web3.utils.isAddress(sendAddress)) {
       if (decide === 'ONE') {
         await sendTxOne(sendAddress, nonce, TO_SEND)
         nonce += 1
       }
       else {
-        await sendHRC20Tokens(tokenJson, HRC20Contract, sendAddress)
+        await sendHRC20Tokens(tokenJson, HRC20Contract, sendAddress, nonce)
+        nonce += 1
       }
     } else {
       console.log('Invalid Address..', sendAddress)
@@ -123,9 +135,4 @@ async function runAirdrop(decide) {
   }
 }
 
-tokenJson = './MyERC20.json'
-HRC20Contract = '0xd6D5936f9323C6Fd8C578d10E1A6A9C63A308D85' // VIP
-const sendAddress = '0x430506383F1Ac31F5FdF5b49ADb77faC604657B2';
-
-decide = 'HRC20'
-runAirdrop(decide)
+runAirdrop(TOKEN_TYPE)

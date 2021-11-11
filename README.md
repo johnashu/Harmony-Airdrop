@@ -19,15 +19,25 @@ Change the amount to send.
 
 ```
 # Amout to send in ONE
-TO_SEND=1.2276
 
 HMY_PRIVATE_KEY="0x1111111111111111111111111111111111"
-HMY_RPC_URL='https://api.s0.t.hmny.io'
+HMY_RPC_URL='https://api.harmony.one'
+# HMY_RPC_URL='https://api.s0.b.hmny.io'
 
-# These should not need to be changed for Harmony ONE.
-GAS_LIMIT = 25000
-GAS_PRICE = 1000000000
-DECIMALS= 1e18
+# these should not need to be changed.
+GAS_LIMIT=250000
+GAS_PRICE=1000000000
+
+# Amount to send
+TO_SEND=0.12342276
+
+# Choose ONE or HRC20
+TOKEN_TYPE=HRC20
+HRC20Contract=0xd6D5936f9323C6Fd8C578d10E1A6A9C63A308D85
+
+# Normally 18 on Harmony.
+DECIMALS=18
+
 ```
 
 Add Addresses to send to addresses.csv

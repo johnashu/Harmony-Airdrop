@@ -1,7 +1,9 @@
 require('dotenv').config()
-import detectEthereumProvider from '@metamask/detect-provider';
-import Web3 from 'web3';
+const detectEthereumProvider = require('@metamask/detect-provider');
+const Web3 = require('web3')
 const BN = require('bn.js');
+const numFormat = require('./utils/numberFormat');
+
 
 // Open file and put addresses into a list to iterate over
 var fName = 'addresses.csv'
@@ -11,7 +13,6 @@ const liner = new lineByLine(fName)
 
 // Metamask
 
-import detectEthereumProvider from '@metamask/detect-provider';
 let account;
 let isAuthorised = false;
 const handleAccountsChanged = (accounts) => {
@@ -23,7 +24,7 @@ const handleAccountsChanged = (accounts) => {
     console.log('Your address: ', account);
   }
 }
-export const signInMetamask = async () => {
+const signInMetamask = async () => {
     const provider = await detectEthereumProvider();
     // @ts-ignore
     if (provider !== window.ethereum) {
@@ -63,7 +64,7 @@ export const signInMetamask = async () => {
 web3 = new Web3(window.web3.currentProvider) 
 /* provider will use network RPC, wich was selected in MetaMask */
 
-const accounts = await ethereum.enable();    
+const accounts = ethereum.enable();    
 /* Now any request to sign a transaction will be redirected to MetaMask */
 
 // # Send Tx
