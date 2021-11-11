@@ -19,7 +19,7 @@ Change the amount to send.
 
 ```
 # Amout to send in ONE
-TO_SEND = 1.2276
+TO_SEND=1.2276
 
 HMY_PRIVATE_KEY="0x1111111111111111111111111111111111"
 HMY_RPC_URL='https://api.s0.t.hmny.io'
