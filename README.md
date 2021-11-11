@@ -42,3 +42,13 @@ Save to log file
 ```
 node .\do_airdrop.js > ./airdrop.log
 ```
+
+
+
+For metamask setup
+
+```
+npm i '@metamask/detect-provider' --save
+npm i web3 --save
+npm i 'bn.js' --save
+```
