@@ -40,7 +40,12 @@ DECIMALS=18
 
 ```
 
-Add Addresses to send to addresses.csv
+Add Name & Addresses to send to addresses.csv
+
+i.e.
+Maffaz,0xF88b361E05a504D9ef34FFeE0E6A5137eba219ca
+Jimmy,0xF88b361E05a504D9ef34FFeE0E6A5137eba1b2b3
+...
 
 run program
 

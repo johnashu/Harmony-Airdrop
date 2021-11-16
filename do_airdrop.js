@@ -94,7 +94,7 @@ const sendHRC20Tokens = async (tokenJson, HRC20Contract, sendAddress, nonce) => 
   }
   try {
     
-  console.log(`Send tx: ${result.transactionHash} \nresult: `, result.status);
+  console.log(`TX: explorer.harmony.one/tx/${result.transactionHash} \nresult: `, result.status);
   }
   catch (e) {
     console.error(e);
@@ -117,8 +117,10 @@ async function runAirdrop(decide) {
   let line
   var nonce = await get_nonce()
   while ((line = liner.next())) {
-    var sendAddress = line.toString('utf8').replace(/\r/g, '')
-    console.log('Sending '+ TO_SEND + ' ' + decide + ' to  Address: ', sendAddress)
+    var splits = line.toString('utf8').split(',')
+    var name = splits[0].replace(/\r/g, '') || 'N/A'
+    var sendAddress = splits[1].replace(/\r/g, '')
+    console.log('Sending '+ TO_SEND + ' ' + decide + ' to ' + name + ' at Address: ', sendAddress)
     if (web3.utils.isAddress(sendAddress)) {
       if (decide === 'ONE') {
         await sendTxOne(sendAddress, nonce, TO_SEND)
