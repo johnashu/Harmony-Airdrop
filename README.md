@@ -21,12 +21,15 @@ Change the amount to send.
 # Amout to send in ONE
 
 HMY_PRIVATE_KEY="0x1111111111111111111111111111111111"
+
 HMY_RPC_URL='https://api.harmony.one'
-# HMY_RPC_URL='https://api.s0.b.hmny.io'
+#alts
+# HMY_RPC_URL="https://rpc.hermesdefi.io/"
+# HMY_RPC_URL="https://harmony-0-rpc.gateway.pokt.network"
 
 # these should not need to be changed.
+GAS_PRICE=30000000000
 GAS_LIMIT=250000
-GAS_PRICE=1000000000
 
 # Amount to send
 TO_SEND=0.12342276
@@ -35,7 +38,7 @@ TO_SEND=0.12342276
 TOKEN_TYPE=HRC20
 HRC20Contract=0xd6D5936f9323C6Fd8C578d10E1A6A9C63A308D85
 
-# Normally 18 on Harmony.
+# Normally 18 on Harmony.+
 DECIMALS=18
 
 ```
